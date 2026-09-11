@@ -9,15 +9,21 @@
 class OrcaWatchdog < Formula
   desc "Watchdog that auto-resumes rate-limited or stalled Orca terminals"
   homepage "https://github.com/johncioni/orca-watchdog"
-  url "https://github.com/johncioni/orca-watchdog/releases/download/v1.0.0/orca-watchdog-1.0.0.tar.gz"
-  sha256 "31737e1db6686efb5683b3cd6b6fd2002df5ba5bacc533de96c5374da278ddc8"
+  url "https://github.com/johncioni/orca-watchdog/releases/download/v1.1.0/orca-watchdog-1.1.0.tar.gz"
+  sha256 "cc57e2039e2d9a40cba6da11bd1c1235b16572ac2559ef7a6571a36340e472c8"
   license "MIT"
 
   depends_on :macos
   depends_on "node"
 
   def install
-    libexec.install Dir["*"]
+    # Shell completions and the man page go to their standard locations.
+    bash_completion.install "completions/orca-watchdog.bash"
+    zsh_completion.install "completions/_orca-watchdog"
+    fish_completion.install "completions/orca-watchdog.fish"
+    man1.install "man/orca-watchdog.1"
+    # Everything else (the runtime) lives under libexec.
+    libexec.install Dir["*"] - ["completions", "man"]
     # Wrap the bundled launcher so it always runs on Homebrew's Node.
     (bin/"orca-watchdog").write_env_script libexec/"bin/orca-watchdog",
       ORCA_WATCHDOG_NODE: formula_opt_bin("node")/"node"
