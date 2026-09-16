@@ -9,8 +9,8 @@
 class OrcaWatchdog < Formula
   desc "Watchdog that auto-resumes rate-limited or stalled Orca terminals"
   homepage "https://github.com/johncioni/orca-watchdog"
-  url "https://github.com/johncioni/orca-watchdog/releases/download/v1.1.1/orca-watchdog-1.1.1.tar.gz"
-  sha256 "4a1e75da7640d9edf989de86e49573ecf13f256dfc1b2957cb4b81b53a17cbf2"
+  url "https://github.com/johncioni/orca-watchdog/releases/download/v1.2.0/orca-watchdog-1.2.0.tar.gz"
+  sha256 "7b317c2352553b9993f2a9b32d8d0c87e33d54bc652f3a31e0ab37578afd0e01"
   license "MIT"
 
   depends_on :macos
@@ -31,11 +31,13 @@ class OrcaWatchdog < Formula
 
   def caveats
     <<~EOS
-      orca-watchdog is installed but NOT running. Nothing is registered
-      with launchd and no terminal is touched until you start it:
+      orca-watchdog is installed but does nothing until you start it.
+      Nothing is registered with launchd and no terminal is touched yet.
 
-        orca-watchdog doctor
-        orca-watchdog start
+      To turn it on (two steps):
+
+        orca-watchdog doctor   # check macOS, Node, Orca, launchd
+        orca-watchdog start    # register the LaunchAgent; runs every 5 min
 
       It needs the Orca CLI (`orca`) on your PATH, or set ORCA_CLI to its path.
       Before `brew upgrade`, run `orca-watchdog stop`, then `start` again.
